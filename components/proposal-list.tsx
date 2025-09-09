@@ -160,6 +160,7 @@ import { Proposal, useProposals } from "@/lib/hooks/useProposals"
 //       suggestions: ""
 //     },
 //   ]
+
 export function ProposalList({
   isAddModalOpen,setIsAddModalOpen,
   status,
@@ -267,13 +268,13 @@ export function ProposalList({
               <div className="flex items-start justify-between">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    {getStatusIcon(proposal.status)}
+                    {/* {getStatusIcon(proposal.status)} */}
                     <CardTitle className="text-lg">{proposal.title}</CardTitle>
                   </div>
                   <p className="text-sm text-muted-foreground">{proposal.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className={getStatusColor(proposal.status)}>{proposal.status.replace("-", " ")}</Badge>
+                  {/* <Badge className={getStatusColor(proposal.status)}>{proposal.status.replace("-", " ")}</Badge> */}
                   <Badge className={getPriorityColor(proposal.priority)}>{proposal.priority}</Badge>
                 </div>
               </div>

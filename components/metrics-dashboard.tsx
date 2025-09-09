@@ -6,28 +6,12 @@ import { Progress } from "@/components/ui/progress"
 export function MetricsDashboard() {
   const metrics = [
     {
-      title: "Total Proposals",
+      title: "Total Contents",
       value: "47",
       change: "+12%",
       trend: "up",
       icon: CheckCircle,
       details: "8 this week",
-    },
-    {
-      title: "Avg Review Time",
-      value: "2.8 days",
-      change: "-15%",
-      trend: "down",
-      icon: Clock,
-      details: "Target: 3 days",
-    },
-    {
-      title: "Approval Rate",
-      value: "87%",
-      change: "+5%",
-      trend: "up",
-      icon: TrendingUp,
-      details: "Industry avg: 82%",
     },
     {
       title: "Knowledge Posts",
@@ -62,7 +46,6 @@ export function MetricsDashboard() {
                 </div>
                 <span>{metric.details}</span>
               </div>
-              {metric.title === "Approval Rate" && <Progress value={87} className="h-1 mt-2" />}
             </CardContent>
           </Card>
         )

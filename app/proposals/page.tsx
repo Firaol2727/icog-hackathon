@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 
+
 export default function ProposalsPage() {
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
@@ -18,12 +19,12 @@ export default function ProposalsPage() {
       <div className="flex-1 space-y-6 p-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-balance">Market Proposals</h1>
-            <p className="text-muted-foreground">Manage and review market proposals with detailed checklists</p>
+            <h1 className="text-3xl font-bold tracking-tight text-balance">Market Contents</h1>
+            <p className="text-muted-foreground">Create and Suggest contents with detailed checklists</p>
           </div>
           <Button className="bg-primary hover:bg-primary/90" onClick={() => setIsAddModalOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            New Proposal
+            New Content
           </Button>
         </div>
 

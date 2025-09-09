@@ -31,6 +31,8 @@ import {
   UserPlus,
 } from "lucide-react"
 import { usePathname } from "next/navigation"
+import { getToken } from "next-auth/jwt"
+import { SessionProvider, useSession } from "next-auth/react"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -41,7 +43,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   
   const navigation = [
     { name: "Dashboard", href: "/", icon: Home, current: true },
-    { name: "Market Outlook", href: "/proposals", icon: FileText, current: false },
+    { name: "Content Insight Hub", href: "/proposals", icon: FileText, current: false },
     { name: "Analytics", href: "/analytics", icon: BarChart3, current: false },
     { name: "Knowledge Hub", href: "/knowledge", icon: BookOpen, current: false },
     { name: "Team", href: "/team", icon: Users, current: false },
@@ -55,7 +57,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
           <div className="fixed left-0 top-0 h-full w-64 bg-sidebar border-r border-sidebar-border">
+            <SessionProvider>
+
             <SidebarContent navigation={navigation} onClose={() => setSidebarOpen(false)} />
+            </SessionProvider>
           </div>
         </div>
       )}
@@ -63,7 +68,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
         <div className="flex flex-col flex-grow bg-sidebar border-r border-sidebar-border">
+          <SessionProvider>
+            
           <SidebarContent navigation={navigation} />
+          </SessionProvider>
         </div>
       </div>
 
@@ -160,6 +168,8 @@ interface SidebarContentProps {
 function SidebarContent({ navigation, onClose }: SidebarContentProps) {
    const activeLink = usePathname()
    console.log("Active Link",activeLink)
+   const { data: session } = useSession();
+   console.log("Data",session)
   return (
     <div className="flex flex-col h-full">
       <div className="flex h-16 shrink-0 items-center px-6 border-b border-sidebar-border">
@@ -167,7 +177,7 @@ function SidebarContent({ navigation, onClose }: SidebarContentProps) {
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
             <FileText className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-lg font-semibold text-sidebar-foreground">ProposalHub</span>
+          <span className="text-lg font-semibold text-sidebar-foreground">ዘመናይ </span>
         </div>
         {onClose && (
           <Button variant="ghost" size="sm" className="ml-auto lg:hidden" onClick={onClose}>
@@ -203,8 +213,8 @@ function SidebarContent({ navigation, onClose }: SidebarContentProps) {
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-sidebar-foreground truncate">John Doe</p>
-            <p className="text-xs text-muted-foreground truncate">Admin</p>
+            <p className="text-sm font-medium text-sidebar-foreground truncate">{session?.user?.name}</p>
+            <p className="text-xs text-muted-foreground truncate">{session?.user?.role}</p>
           </div>
         </div>
       </div>

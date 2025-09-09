@@ -26,6 +26,7 @@ import {
 import { Proposal } from "@/lib/hooks/useProposals"
 
 import ReactMarkdown from "react-markdown";
+import { toast } from "react-toastify"
 
 export default function Suggestions({ proposal }: { proposal: Proposal }) {
   return (
@@ -144,8 +145,28 @@ export function ProposalDetailModal({ proposal, onClose }: ProposalDetailModalPr
     }
   }
 
+  const [comment , setComment] = useState('')
+  const handleCommentSubmit=() => {
+    console.log("Comment:", comment);
+    console.log("Proposal ID:", proposal.id);
+    fetch("/api/proposal/comment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ comment, proposalId: proposal.id }),
+    }).then((res) => {
+      toast.success("Comment submitted successfully");
+      onClose();
+
+    }).catch((err) => {
+        toast.error(err.message);
+        
+    })
+  }
   function handleDownload(fileName: string) {
   // file is served from public/uploads
+    // setCreateComment({comment: ""})
   const url = `/uploads/${fileName}`;
 
   const link = document.createElement("a");
@@ -414,27 +435,27 @@ export function ProposalDetailModal({ proposal, onClose }: ProposalDetailModalPr
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <Textarea placeholder="Add your feedback or questions about the AI analysis..." />
-                  <Button size="sm">Post Comment</Button>
+                  <Textarea onChange={(e) => setComment(e.target.value)} placeholder="Add your feedback or questions about the AI analysis..." />
+                  <Button onClick={handleCommentSubmit} size="sm">Post Comment</Button>
                 </div>
               </CardContent>
             </Card>
 
             <div className="space-y-4">
-              {comments.map((comment) => (
+              {proposal.comments.map((comment) => (
                 <Card key={comment.id}>
                   <CardContent className="pt-4">
                     <div className="flex items-start gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={comment.avatar || "/placeholder.svg"} alt={comment.author} />
-                        <AvatarFallback className="text-xs">{comment.initials}</AvatarFallback>
+                        <AvatarImage src={comment.author.avatar || "/placeholder.svg"} alt={comment.author.name[0]} />
+                        <AvatarFallback className="text-xs">{comment.author.initials}</AvatarFallback>
                       </Avatar>
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-2">
-                          <span className="font-medium text-sm">{comment.author}</span>
-                          <Badge variant="outline" className="text-xs">
-                            {comment.type}
-                          </Badge>
+                          <span className="font-medium text-sm">{comment.author.name}</span>
+                          {/* <Badge variant="outline" className="text-xs">
+                            {comment.}
+                          </Badge> */}
                           <span className="text-xs text-muted-foreground">{comment.timestamp}</span>
                         </div>
                         <p className="text-sm">{comment.content}</p>

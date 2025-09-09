@@ -6,7 +6,7 @@ export interface Proposal {
   id: string
   title: string
   description: string
-  status:  "in_review" | "approved" | "rejected" | "revision_needed" 
+  // status:  "in_review" | "approved" | "rejected" | "revision_needed" 
   priority: "low" | "medium" | "high" | "critical"
   suggestions:string
   score: {
@@ -36,6 +36,18 @@ export interface Proposal {
   }
   lastUpdated: string
   tags: string[]
+  comments: [
+    {
+      id: string
+      author: {
+        name: string
+        avatar: string
+        initials: string
+      }
+      content: string
+      timestamp: string
+    }
+  ]
 }
 export interface ProposalsPaginated {
     proposals: Proposal[];

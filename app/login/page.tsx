@@ -12,7 +12,7 @@ export default function LoginPage() {
               <FileText className="h-6 w-6 text-primary-foreground" />
             </div>
           </div>
-          <CardTitle className="text-2xl">Welcome to ProposalHub</CardTitle>
+          <CardTitle className="text-2xl">Welcome to ዘመናይ </CardTitle>
           <CardDescription>Sign in to access your dashboard</CardDescription>
         </CardHeader>
         <CardContent>

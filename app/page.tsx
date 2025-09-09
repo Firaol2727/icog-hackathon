@@ -8,13 +8,13 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div className="flex-1 space-y-6 p-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight text-balance">Market Outlook Dashboard</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-balance">Content Insight Hub Dashboard</h1>
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <ProposalOverview />
-          <MetricsDashboard />
           <KnowledgeHubPreview />
+          <MetricsDashboard />
         </div>
       </div>
     </DashboardLayout>

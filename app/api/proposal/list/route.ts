@@ -79,7 +79,8 @@ export  async function GET(
       comments:{
         select:{
             author:true,
-            content:true
+            content:true,
+            id:true,
         }
       },
     }

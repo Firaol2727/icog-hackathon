@@ -86,7 +86,17 @@ export function KnowledgeDetailModal({ post, onClose }: KnowledgeDetailModalProp
         return <ExternalLink className="h-4 w-4" />
     }
   }
-
+  const [comment , setComment] = useState("");
+  const handleCommentSubmit=() => {
+    console.log("Comment:", comment);
+    fetch("/api/knowledge/comment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ comment, proposalId: post.id }),
+    })
+  }
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -297,8 +307,8 @@ export function KnowledgeDetailModal({ post, onClose }: KnowledgeDetailModalProp
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <Textarea placeholder="Share your thoughts, similar experiences, or questions..." />
-                  <Button size="sm">Post Comment</Button>
+                  <Textarea onChange={(e) => setComment(e.target.value)} placeholder="Share your thoughts, similar experiences, or questions..." />
+                  <Button onClick={handleCommentSubmit} size="sm">Post Comment</Button>
                 </div>
               </CardContent>
             </Card>

@@ -36,8 +36,9 @@ export async function POST(req: NextRequest) {
   try {
 
     // Run everything inside a transaction
-    const result = await prisma.$transaction(async (prisma) => {
-      let projectId;
+    // const result = await prisma.$transaction(async (prisma) => {
+    // });
+          let projectId;
       let eventId;
 
       // Create project if provided
@@ -85,11 +86,9 @@ export async function POST(req: NextRequest) {
         );
         await Promise.all(sourcePromises);
       }
+      // return post;
 
-      return post;
-    });
-
-    return NextResponse.json({ message: "Post created successfully", post: result }, { status: 201 });
+    return NextResponse.json({ message: "Post created successfully", post: post }, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });

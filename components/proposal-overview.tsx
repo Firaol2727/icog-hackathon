@@ -63,9 +63,9 @@ export function ProposalOverview() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="h-5 w-5" />
-          Active Proposals
+          Recent Contents
         </CardTitle>
-        <CardDescription>Track progress and status of market proposals</CardDescription>
+        <CardDescription>A list of recent contents </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -79,11 +79,11 @@ export function ProposalOverview() {
                 </div>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span>Due: {proposal.dueDate}</span>
-                  <span>Priority: {proposal.priority}</span>
+                  {/* <span>Priority: {proposal.priority}</span> */}
                 </div>
                 <div className="space-y-1">
                   <div className="flex justify-between text-sm">
-                    <span>Progress</span>
+                    <span>Overall Score </span>
                     <span>{proposal.progress}%</span>
                   </div>
                   <Progress value={proposal.progress} className="h-2" />

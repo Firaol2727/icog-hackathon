@@ -39,11 +39,11 @@ export function ProposalFilters({
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search proposals..." className="pl-10" />
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search contents..." className="pl-10" />
         </div>
 
         <div className="flex gap-2">
-          <Select
+          {/* <Select
             value={status}
             onValueChange={(value) => setStatus(value)}
           >
@@ -57,7 +57,7 @@ export function ProposalFilters({
               <SelectItem value="revision_needed">Needs Revision</SelectItem>
               <SelectItem value="rejected">Rejected</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
 
           <Select
             value={priority}
