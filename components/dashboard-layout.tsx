@@ -177,7 +177,7 @@ function SidebarContent({ navigation, onClose }: SidebarContentProps) {
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
             <FileText className="h-5 w-5 text-primary-foreground" />
           </div>
-          <span className="text-lg font-semibold text-sidebar-foreground">ዘመናይ </span>
+          <span className="text-lg font-semibold text-sidebar-foreground">zemenay </span>
         </div>
         {onClose && (
           <Button variant="ghost" size="sm" className="ml-auto lg:hidden" onClick={onClose}>

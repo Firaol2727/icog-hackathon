@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { InviteUserModal } from "@/components/invite-user-modal"
 import { EditUserModal } from "@/components/edit-user-modal"
-import { Search, UserPlus, MoreHorizontal, Shield, User, Crown } from "lucide-react"
+import { Search, UserPlus, MoreHorizontal, Shield, User, Crown, ChevronLeft, ChevronRight } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,14 +20,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useUsers } from "@/lib/hooks/useUsers"
 import { User as  TeamMember} from "@/lib/hooks/useUsers"
+import { UserDetailModal } from "./user-detail-modal"
 // interface TeamMember =User
 
 export function UserManagement() {
   const [showInviteModal, setShowInviteModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState<TeamMember | null>(null)
+  const [selectedUserForDetail, setSelectedUserForDetail] = useState<TeamMember | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [roleFilter, setRoleFilter] = useState("all")
-
   // const teamMembers: TeamMember[] = [
   //   {
   //     id: "1",
@@ -96,8 +97,24 @@ export function UserManagement() {
   //     initials: "ET",
   //   },
   // ]
-  const users = useUsers({page:1,limit:10,search:searchQuery,role:roleFilter});
+  const [page, setPage] = useState(1);
+  const users = useUsers({page:page,limit:10,search:searchQuery,role:roleFilter,refresh:showInviteModal});
 
+  const goToPage = (page: number) => {
+    setPage(page)
+  }
+
+  const goToPrevious = () => {
+    if (page > 1) {
+      setPage(page - 1)
+    }
+  }
+
+  const goToNext = () => {
+    // if (currentPage < totalPages) {
+      setPage(page + 1)
+    // }
+  }
   const getRoleIcon = (role: string) => {
     switch (role) {
       case "admin":
@@ -137,7 +154,10 @@ export function UserManagement() {
     }
   }
 
-
+  const itemsPerPage = 6
+    // const totalPages = Math.ceil(knowledgePosts.length / itemsPerPage)
+  const startIndex = (page - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
   return (
     <>
       <Card>
@@ -216,7 +236,7 @@ export function UserManagement() {
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuItem onClick={() => setSelectedUser(member)}>Edit User</DropdownMenuItem>
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSelectedUserForDetail(member)}>View Profile</DropdownMenuItem>
                       <DropdownMenuItem>Reset Password</DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem className="text-red-600">
@@ -231,10 +251,53 @@ export function UserManagement() {
         </CardContent>
       </Card>
 
+      {users?.pagination && <div className="flex items-center justify-between mt-8">
+          <div className="text-sm text-muted-foreground">
+            Showing {startIndex + 1}-{Math.min(endIndex, users.pagination.total)} of {users.pagination.total} knowledge
+            posts
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={goToPrevious} disabled={page === 1}>
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </Button>
+ 
+            <div className="flex items-center gap-1">
+              {Array.from({ length:users.pagination.totalPages }, (_, i) => i + 1).map((page) => (
+                <Button
+                  key={page}
+                  variant={page === page ? "default" : "outline"}
+                  size="sm"
+                  className="w-8 h-8 p-0"
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </Button>
+              ))}
+            </div>
+
+            <Button variant="outline" size="sm" onClick={goToNext} disabled={page === users.pagination.totalPages}>
+              Next
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>}
 
       {showInviteModal && <InviteUserModal onClose={() => setShowInviteModal(false)} />}
 
       {selectedUser && <EditUserModal user={selectedUser} onClose={() => setSelectedUser(null)} />}
+
+        {selectedUserForDetail && (
+        <UserDetailModal
+          user={selectedUserForDetail}
+          onClose={() => setSelectedUserForDetail(null)}
+          onEdit={(user) => {
+            setSelectedUserForDetail(null)
+            setSelectedUser(user)
+          }}
+        />
+      )}
     </>
   )
 }

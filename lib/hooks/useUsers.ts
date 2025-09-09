@@ -23,14 +23,14 @@ export interface UsersPaginated {
         totalPages:number;
     }
 }
-export function useUsers({page,limit,search,role
+export function useUsers({page,limit,search,role,refresh
 
 }:{
     page:number,
     limit:number,
     search?:string,
     role?:string,
-
+    refresh?:any
 }) {
   const [users, setUsers] = useState<UsersPaginated>()
 
@@ -49,7 +49,7 @@ export function useUsers({page,limit,search,role
       setUsers(data)
     }
     fetchusers()
-  }, [page,limit,role,search])
+  }, [page,limit,role,search,refresh])
 
   return users
 }

@@ -91,19 +91,19 @@ export function CreateProposalModal({ open, onOpenChange }: CreateProposalModalP
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Create New Proposal</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">Create New Content</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
           <div className="space-y-4">
             <div>
-              <Label htmlFor="title">Proposal Title *</Label>
+              <Label htmlFor="title">Content Title *</Label>
               <Input
                 id="title"
                 value={formData.title}
                 onChange={(e) => handleInputChange("title", e.target.value)}
-                placeholder="Enter proposal title"
+                placeholder="Enter content title"
                 required
               />
             </div>
@@ -157,7 +157,7 @@ export function CreateProposalModal({ open, onOpenChange }: CreateProposalModalP
 
           {/* Document Upload */}
           <div className="space-y-4">
-            <Label>Proposal Document</Label>
+            <Label>Content Document</Label>
             <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6">
               {uploadedFile ? (
                 <div className="flex items-center justify-between p-3 bg-muted rounded-lg">

@@ -5,23 +5,29 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Progress } from "@/components/ui/progress"
 import { Users, UserPlus, Shield, Activity } from "lucide-react"
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 
 export function TeamOverview() {
-  const [ov,setOv]=useState({
+  const [statistics,setStatistics]=useState({
     totalActiveUsers:0,
     totalAdmin:0,
     totalMembers:0
   })
+  const [departmentStat,setDepartmentStat]=useState<{
+    department : string|null,
+    count : number
+  }[]>([])
   useEffect(()=>{
     fetch('api/user/statistics',{
       method:'GET'
     }).then(async res=>{
       const data= await res.json()
-      console.log('data',data)
-      setOv(data);
+      console.log('data of api',data)
+      setStatistics(data);
+      setDepartmentStat(data.usersByDepartment)
     })
     .catch((err)=>{
-
+      toast.error(err.message);
     })
   },[])
   const teamStats = [
@@ -67,8 +73,8 @@ export function TeamOverview() {
   ]
 
   const departmentBreakdown = [
-    { name: "Product", count: 12, percentage: 35 },
-    { name: "Marketing", count: 8, percentage: 24 },
+    { name: "Product", count: 12 },
+    { name: "Marketing", count: 8 },
     { name: "Finance", count: 6, percentage: 18 },
     { name: "Operations", count: 5, percentage: 15 },
     { name: "HR", count: 3, percentage: 8 },
@@ -87,7 +93,7 @@ export function TeamOverview() {
                 <Icon className={`h-4 w-4 ${stat.color}`} />
               </CardHeader>
               <CardContent>
-                {/* <div className="text-2xl font-bold">{ov[stat.name]}</div> */}
+                <div className="text-2xl font-bold">{statistics[stat.name as keyof typeof statistics]}</div>
               </CardContent>
             </Card>
           )
@@ -131,15 +137,15 @@ export function TeamOverview() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {departmentBreakdown.map((dept) => (
-                <div key={dept.name} className="space-y-2">
+              {departmentStat.map((dept) => (
+                <div key={dept.department} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{dept.name}</span>
+                    <span className="text-sm font-medium">{dept.department}</span>
                     <span className="text-sm text-muted-foreground">
-                      {dept.count} members ({dept.percentage}%)
+                      {dept.count} members ({Math.round(dept.count/statistics.totalMembers*100)}%)
                     </span>
                   </div>
-                  <Progress value={dept.percentage} className="h-2" />
+                  <Progress value={Math.round(dept.count/statistics.totalMembers*100)} className="h-2" />
                 </div>
               ))}
             </div>

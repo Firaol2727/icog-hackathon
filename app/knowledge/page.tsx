@@ -55,7 +55,10 @@ export default  function KnowledgePage() {
         category={category}
         setCategory={setCategory}
         currentPage={currentPage}
+        refresh={isCreateModalOpen}
         setCurrentPage={setCurrentPage}
+        search={search}
+        setSearch={setSearch}
         />
         <CreateKnowledgeModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
       </div>

@@ -29,9 +29,9 @@ export function ProposalAnalytics() {
   ]
 
   const statusData = [
-    { name: "Approved", value: 87, color: "#10b981" },
-    { name: "In Review", value: 8, color: "#f59e0b" },
-    { name: "Rejected", value: 5, color: "#ef4444" },
+    { name: "Over 75%", value: 87, color: "#10b981" },
+    { name: "50-75%", value: 8, color: "#f59e0b" },
+    { name: "25-50%", value: 5, color: "#ef4444" },
   ]
 
   const categoryData = [
@@ -42,10 +42,10 @@ export function ProposalAnalytics() {
   ]
 
   const reviewTimeData = [
-    { reviewer: "Mike Johnson", avgDays: 2.1, proposals: 15 },
-    { reviewer: "Sarah Chen", avgDays: 2.8, proposals: 12 },
-    { reviewer: "David Kim", avgDays: 3.2, proposals: 18 },
-    { reviewer: "Lisa Wang", avgDays: 2.5, proposals: 10 },
+    { reviewer: "Mike Johnson", avgDays: 2.1, posts: 15 },
+    { reviewer: "Sarah Chen", avgDays: 2.8, posts: 12 },
+    { reviewer: "David Kim", avgDays: 3.2, posts: 18 },
+    { reviewer: "Lisa Wang", avgDays: 2.5, posts: 10 },
   ]
 
   return (
@@ -54,7 +54,7 @@ export function ProposalAnalytics() {
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Monthly Proposal Trends</CardTitle>
+            <CardTitle>Monthly Content Trends</CardTitle>
             <CardDescription>Submission and approval patterns over time</CardDescription>
           </CardHeader>
           <CardContent>
@@ -64,9 +64,9 @@ export function ProposalAnalytics() {
                 <XAxis dataKey="month" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="submitted" fill="#3b82f6" name="Submitted" />
-                <Bar dataKey="approved" fill="#10b981" name="Approved" />
-                <Bar dataKey="rejected" fill="#ef4444" name="Rejected" />
+                <Bar dataKey="submitted" fill="#10b981" name="Submitted" />
+                {/* <Bar dataKey="approved" fill="#10b981" name="Approved" />
+                <Bar dataKey="rejected" fill="#ef4444" name="Rejected" /> */}
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -163,22 +163,22 @@ export function ProposalAnalytics() {
           <CardTitle>Reviewer Performance</CardTitle>
           <CardDescription>Average review time by reviewer</CardDescription>
         </CardHeader>
-        <CardContent>
+        {/* <CardContent>
           <div className="space-y-4">
             {reviewTimeData.map((reviewer) => (
               <div key={reviewer.reviewer} className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
+               
                   <p className="font-medium">{reviewer.reviewer}</p>
                   <p className="text-sm text-muted-foreground">{reviewer.proposals} proposals reviewed</p>
-                </div>
+                </div> 
                 <div className="text-right">
                   <p className="text-lg font-semibold">{reviewer.avgDays} days</p>
                   <p className="text-sm text-muted-foreground">avg review time</p>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
+           
+       
+        </CardContent> */}
       </Card>
     </div>
   )

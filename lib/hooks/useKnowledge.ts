@@ -49,15 +49,15 @@ export interface KnowledgePaginated {
         totalPages:number;
     }
 }
-export function useKnowledge({page,limit,category,lessonType
+export function useKnowledge({page,limit,category,lessonType,refresh,search
 
 }:{
     page:number,
     limit:number,
     category?:string,
     lessonType?:string,
-    // tag:st
-
+    refresh:any
+    search:string
 }) {
   const [knowledge, setKnowledge] = useState<KnowledgePaginated>()
 
@@ -70,13 +70,16 @@ export function useKnowledge({page,limit,category,lessonType
       if (lessonType) {
         url = url + `&lessonType=${lessonType}`;
       }
+      if (search) {
+        url = url + `&search=${search}`;
+      }
       const res = await fetch(url)
       const data = await res.json()
       console.log("Data from useKnowledge:", data)
       setKnowledge(data)
     }
     fetchKnowledge()
-  }, [page,limit,category,lessonType])
+  }, [page,limit,category,lessonType,refresh,search])
 
   return knowledge
 }

@@ -31,6 +31,7 @@ export  async function GET(
         { title: { contains: search } },
         { summary: { contains: search } },
         { content: { contains: search } },
+        // { tags : { contains: search } }
       ],
     }
     

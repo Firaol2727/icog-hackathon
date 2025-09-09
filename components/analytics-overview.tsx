@@ -6,31 +6,13 @@ import { TrendingUp, TrendingDown, FileText, BookOpen, Users, Clock, CheckCircle
 export function AnalyticsOverview() {
   const kpis = [
     {
-      title: "Total Proposals",
+      title: "Total Contents",
       value: "47",
       change: "+12%",
       trend: "up",
       period: "vs last month",
       icon: FileText,
       color: "text-blue-600",
-    },
-    {
-      title: "Approval Rate",
-      value: "87%",
-      change: "+5%",
-      trend: "up",
-      period: "vs last month",
-      icon: CheckCircle,
-      color: "text-green-600",
-    },
-    {
-      title: "Avg Review Time",
-      value: "3.2 days",
-      change: "-15%",
-      trend: "down",
-      period: "vs last month",
-      icon: Clock,
-      color: "text-orange-600",
     },
     {
       title: "Knowledge Posts",
@@ -51,7 +33,7 @@ export function AnalyticsOverview() {
       color: "text-cyan-600",
     },
     {
-      title: "Risk Proposals",
+      title: "Satisfactory Contents",
       value: "3",
       change: "-2",
       trend: "down",
@@ -62,7 +44,7 @@ export function AnalyticsOverview() {
   ]
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {kpis.map((kpi, index) => {
         const Icon = kpi.icon
         const isPositive = kpi.trend === "up"

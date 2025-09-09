@@ -65,6 +65,7 @@ export function KnowledgeFilters({
               setCurrentPage(1)
             }
           }
+          value={category || undefined}
           >
             <SelectTrigger className="w-[160px]">
               <SelectValue placeholder="Category" />
@@ -87,6 +88,7 @@ export function KnowledgeFilters({
               setCurrentPage(1)
             }
           }
+          value={lessonType || undefined}
           >
             <SelectTrigger className="w-[140px]">
               <SelectValue placeholder="Lesson Type" />

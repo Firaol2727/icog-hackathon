@@ -8,8 +8,16 @@ import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Mail, Phone, MapPin, Building, Crown } from "lucide-react"
+import { useEffect, useState } from "react"
+import { User } from "@/lib/hooks/useUsers"
 
 export function UserProfile() {
+
+  const [user, setUser] = useState<User>()
+  useEffect(() => {
+    fetch("/api/user/profile").then(res => res.json()).then(data => setUser(data))
+    .catch(err => console.log(err))
+  },[])
   return (
     <div className="grid gap-6 md:grid-cols-3">
       {/* Profile Overview */}
@@ -20,28 +28,28 @@ export function UserProfile() {
             <AvatarFallback className="text-2xl">JD</AvatarFallback>
           </Avatar>
           <CardTitle className="flex items-center justify-center gap-2">
-            John Doe
+            {user?.name} 
             <Crown className="h-4 w-4 text-yellow-600" />
           </CardTitle>
-          <CardDescription>Administrator</CardDescription>
+          <CardDescription>{user?.role}</CardDescription>
           <Badge className="bg-green-100 text-green-800 border-green-200 w-fit mx-auto">Active</Badge>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-2 text-sm">
             <Mail className="h-4 w-4 text-muted-foreground" />
-            <span>john.doe@company.com</span>
+            <span>{user?.email}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
+          {/* <div className="flex items-center gap-2 text-sm">
             <Phone className="h-4 w-4 text-muted-foreground" />
             <span>+1 (555) 123-4567</span>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2 text-sm">
             <Building className="h-4 w-4 text-muted-foreground" />
-            <span>IT Department</span>
+            <span>{user?.department}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <MapPin className="h-4 w-4 text-muted-foreground" />
-            <span>San Francisco, CA</span>
+            <span>Addis Ababa, Ethiopia</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -58,39 +66,33 @@ export function UserProfile() {
         </CardHeader>
         <CardContent>
           <form className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
-                <Input id="firstName" defaultValue="John" />
+                <Label htmlFor="firstName">Name</Label>
+                <Input id="firstName" defaultValue={user?.name} name="name" />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
-                <Input id="lastName" defaultValue="Doe" />
-              </div>
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" defaultValue="john.doe@company.com" />
+              <Input id="email" type="email" name="email" defaultValue={user?.email} />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            {/* <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" defaultValue="+1 (555) 123-4567" />
+                <Input id="phone" defaultValue={user.} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="location">Location</Label>
                 <Input id="location" defaultValue="San Francisco, CA" />
               </div>
-            </div>
+            </div> */}
 
             <div className="space-y-2">
               <Label htmlFor="bio">Bio</Label>
               <Textarea
                 id="bio"
+                name="bio"
                 placeholder="Tell us about yourself..."
-                defaultValue="Experienced IT administrator with a passion for streamlining business processes and implementing innovative solutions."
+                defaultValue={user?.bio}
                 rows={4}
               />
             </div>
@@ -100,13 +102,13 @@ export function UserProfile() {
               <Input
                 id="skills"
                 placeholder="e.g., Project Management, Data Analysis, Team Leadership"
-                defaultValue="System Administration, Project Management, Team Leadership, Process Optimization"
+                defaultValue={user?.skills?.map((skill) => skill).join(", ")}
               />
             </div>
 
             <div className="flex justify-end gap-2">
               <Button variant="outline">Cancel</Button>
-              <Button>Save Changes</Button>
+              <Button >Save Changes</Button>
             </div>
           </form>
         </CardContent>

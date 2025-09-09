@@ -32,19 +32,25 @@ export function KnowledgeGrid({
   lessonType,
   setLessonType,
   category,
-  setCategory
+  setCategory,
+  refresh,
+  search
 }:{
   currentPage:number,
   setCurrentPage:(limit:number) => void,
   lessonType:string,
   setLessonType:(lessonType:string) => void,
   category:string,
-  setCategory:(category:string)=>void
-
+  setCategory:(category:string)=>void,
+  search:string,
+  setSearch:(search:string) => void,
+  refresh:any
 }) {
   const [selectedPost, setSelectedPost] = useState<KnowledgePost | null>(null)
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [limit, setLimit] = useState(6)
+  const  knowledge = useKnowledge({ page:currentPage, limit, category, lessonType,refresh,search })
+
   // const [category, setCategory] = useState("")
   // const [lessonType, setLessonType] = useState("")
   //  const [currentPage, setCurrentPage] = useState(1)
@@ -70,8 +76,7 @@ export function KnowledgeGrid({
     // }
   }
 
-  const  knowledge = useKnowledge({ page:currentPage, limit, category, lessonType })
-
+  
   // const knowledgePosts: KnowledgePost[] = [
   //   {
   //     id: "1",
@@ -335,8 +340,8 @@ export function KnowledgeGrid({
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-medium">{post.project.name}</p>
-                    <p className="text-xs text-muted-foreground">{post.project.type}</p>
+                    <p className="text-xs font-medium">{post.project?.name}</p>
+                    <p className="text-xs text-muted-foreground">{post.project?.type}</p>
                   </div>
                 </div>
 
@@ -344,7 +349,7 @@ export function KnowledgeGrid({
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   <span>
-                    {post.event.name} • {post.event.date}
+                    {post.event?.name} • {post.event?.date}
                   </span>
                 </div>
 

@@ -12,10 +12,26 @@ export  async function GET(request: NextRequest) {
   const totalActiveUsers=await prisma.user.count({ where:{status:'active'}
   })
   const totalAdmin=await prisma.user.count({where:{role:'admin'}})
+
+  // get user count be grouping by department
+  const users = await prisma.user.groupBy({
+    by: ["department"],
+    _count: {
+      id: true,
+    },
+  })
+  const userByDepartment:{
+    count:number,
+    department:string|null
+  }[] = users.map((user) => ({
+    count: user._count.id,
+    department:user.department
+  }))
   // get the number interms of department 
   return NextResponse.json({
     totalActiveUsers,
     totalAdmin,
-    totalMembers
+    totalMembers,
+    usersByDepartment:userByDepartment
   });
 }

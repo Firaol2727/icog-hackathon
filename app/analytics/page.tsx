@@ -20,7 +20,7 @@ export default function AnalyticsPage() {
 
         <Tabs defaultValue="proposals" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="proposals">Proposal Analytics</TabsTrigger>
+            <TabsTrigger value="proposals">Content Analytics</TabsTrigger>
             <TabsTrigger value="knowledge">Knowledge Hub</TabsTrigger>
             <TabsTrigger value="team">Team Performance</TabsTrigger>
           </TabsList>

@@ -75,7 +75,7 @@ export function ProposalOverview() {
                 <div className="flex items-center gap-2">
                   {getStatusIcon(proposal.status)}
                   <h4 className="font-medium">{proposal.title}</h4>
-                  <Badge className={getStatusColor(proposal.status)}>{proposal.status.replace("-", " ")}</Badge>
+                  {/* <Badge className={getStatusColor(proposal.status)}>{proposal.status.replace("-", " ")}</Badge> */}
                 </div>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span>Due: {proposal.dueDate}</span>
