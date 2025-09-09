@@ -1,0 +1,218 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model KnowledgePost {
+  id          String   @id @default(uuid())
+  title       String
+  summary     String
+  content     String
+  category    String
+  tags        String[] // Prisma supports scalar lists (for PostgreSQL + MongoDB)
+
+  author      User   @relation(fields: [authorId], references: [id])
+  authorId    String
+
+  project     Project? @relation(fields: [projectId], references: [id])
+  projectId   String?
+
+  event       Event?   @relation(fields: [eventId], references: [id])
+  eventId     String?
+
+  lessonType  LessonType
+
+  sources     Source[]
+  comments    Comment[]  
+
+  metrics     Metrics?  @relation(fields: [metricsId], references: [id])
+  metricsId   String?  @unique
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  author      User   @relation(fields: [authorId], references: [id])
+  authorId    String
+  content   String?
+  timestamp DateTime @default(now())
+  likes     Int      @default(0)
+
+  post      KnowledgePost @relation(fields: [postId], references: [id])
+  postId    String
+}
+
+model User {
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  avatar   String?
+  initials String?
+  role     String?
+  skills   String[]
+  location String?
+  bio      String?
+  department String?
+  status   String @default("active")
+  posts    KnowledgePost[]
+  comments Comment[]
+  proposalComments ProposalComment[]
+  // A user can be the assignee for many proposals
+  assignedProposals Proposal[] @relation(name: "AssignedProposals")
+  // A user can be the reviewer for many proposals
+  reviewedProposals Proposal[] @relation(name: "ReviewedProposals")
+}
+
+model Project {
+  id    String   @id @default(uuid())
+  name  String
+  type  String
+  posts KnowledgePost[]
+}
+
+model Event {
+  id    String   @id @default(uuid())
+  name  String
+  date  DateTime
+  posts KnowledgePost[]
+}
+
+model Source {
+  id       String   @id @default(uuid())
+  title    String
+  url      String
+  type     SourceType
+  post     KnowledgePost @relation(fields: [postId], references: [id])
+  postId   String
+}
+
+model Metrics {
+  id        String   @id @default(uuid())
+  likes     Int      @default(0)
+  comments  Int      @default(0)
+  bookmarks Int      @default(0)
+  views     Int      @default(0)
+  post      KnowledgePost?
+}
+
+model Proposal {
+  id        String   @id @default(uuid())
+  title     String
+  description String 
+  suggestions String?
+  category  CategoryType?
+  status    StatusType
+
+  priority  PriorityType
+
+  dueDate   DateTime
+
+  score     Score?
+
+  // A User can be the assignee for multiple proposals
+
+  assigneeId String
+  assignee   User   @relation(name: "AssignedProposals", fields: [assigneeId], references: [id])
+
+  // A User can be the reviewer for multiple proposals
+  reviewerId String?
+  reviewer   User?  @relation(name: "ReviewedProposals", fields: [reviewerId], references: [id])
+  document   Document? 
+
+  comments ProposalComment[]
+
+  tags      String[]  
+  lastUpdated DateTime
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+model ProposalComment {
+  id        String   @id @default(uuid())
+  author      User   @relation(fields: [authorId], references: [id])
+  authorId    String
+  content   String?
+  timestamp DateTime @default(now())
+  likes     Int      @default(0)
+
+  proposal      Proposal @relation(fields: [proposalId], references: [id])
+  proposalId    String
+}
+
+model Score {
+  id     String   @id @default(uuid())
+  idea   Int
+  design Int
+  quality Int
+  overall Int
+
+  proposalId String    @unique
+  proposal   Proposal   @relation(fields: [proposalId], references: [id])
+
+}
+model Document {
+  id        String   @id @default(uuid())
+  name      String?   
+  path      String?
+  size      String?
+  uploadedAt DateTime
+  processed  Boolean     @default(true)
+
+  proposalId String    @unique
+  proposal   Proposal   @relation(fields: [proposalId], references: [id])
+
+}
+enum LessonType {
+  success
+  failure
+  insight
+  warning
+}
+
+enum SourceType {
+  document
+  website
+  video
+  article
+}
+enum RoleType{
+  user
+  manager
+  admin
+}
+enum StatusType {
+  in_review
+  approved 
+  rejected 
+  revision_needed
+}
+enum PriorityType {
+  low
+  medium
+  high
+  critical
+}
+enum CategoryType {
+  product_launch
+  market_expansion
+  partnership
+  technology
+  marketing
+  research
+  other
+}
