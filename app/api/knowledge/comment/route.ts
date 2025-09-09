@@ -20,12 +20,15 @@ export async function POST(request: NextRequest) {
     }
     const comment = await prisma.comment.create({
       data: {
-        postId,
         author:{
           connect:{id:userId}
         },
         content,
-        authorId:userId
+        post: {
+          connect: {
+            id: postId,
+          },
+        }
       },
     });
 

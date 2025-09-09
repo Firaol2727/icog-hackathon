@@ -87,7 +87,7 @@ export function TeamOverview() {
                 <Icon className={`h-4 w-4 ${stat.color}`} />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{ov[stat.name]}</div>
+                {/* <div className="text-2xl font-bold">{ov[stat.name]}</div> */}
               </CardContent>
             </Card>
           )

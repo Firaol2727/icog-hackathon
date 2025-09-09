@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 import { getToken } from "next-auth/jwt";
-export async function incrementViewCount(request: NextRequest){
+
+export async function POST(request: NextRequest){
   const body:any = request.json()  
   const { id }=body;
   const token = await getToken({ req: request });
