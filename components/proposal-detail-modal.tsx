@@ -523,10 +523,10 @@ export function ProposalDetailModal({ proposal, onClose }: ProposalDetailModalPr
                           <span>Key sections identified:</span>
                           <span className="font-medium">8</span>
                         </div>
-                        <div className="flex justify-between text-sm">
+                        {/* <div className="flex justify-between text-sm">
                           <span>Processing time:</span>
                           <span className="font-medium">2.3 seconds</span>
-                        </div>
+                        </div> */}
                         <div className="flex justify-between text-sm">
                           <span>Confidence level:</span>
                           <span className="font-medium text-green-600">94%</span>
