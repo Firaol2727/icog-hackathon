@@ -489,7 +489,8 @@ export function ProposalDetailModal({ proposal, onClose }: ProposalDetailModalPr
                               Processed
                             </Badge>
                           ) : (
-                            <Badge className="bg-amber-100 text-amber-800">Processing...</Badge>
+                            <div></div>
+                            // <Badge className="bg-amber-100 text-amber-800">Processing...</Badge>
                           )}
                         </div>
                       </div>
